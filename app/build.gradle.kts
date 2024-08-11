@@ -41,6 +41,7 @@ android {
     }
 
     buildTypes {
+
         release {
             isMinifyEnabled = false
             proguardFiles(
@@ -80,6 +81,7 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.media3.ui)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -89,6 +91,8 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
 
     implementation(libs.androidx.navigation.compose)
+    implementation(libs.swipe.refresh)
+
 
 
     //Room DB
@@ -115,6 +119,8 @@ dependencies {
     // Coil Image Loading
     implementation(libs.coil)
     implementation(libs.accompanist.coil)
+    implementation(libs.exoplayer.video)
+    implementation(libs.androidx.media3.ui)
 }
 
 kapt {
