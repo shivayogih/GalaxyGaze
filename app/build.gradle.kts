@@ -1,6 +1,10 @@
+import java.util.Properties
+
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.jetbrains.kotlin.android)
+    kotlin("kapt")
+    alias(libs.plugins.hilt.android)
 }
 
 android {
@@ -18,6 +22,22 @@ android {
         vectorDrawables {
             useSupportLibrary = true
         }
+
+
+        //load the values from .properties file
+        val keystoreFile = project.rootProject.file("apikeys.properties")
+        val properties = Properties()
+        properties.load(keystoreFile.inputStream())
+
+        val baseUrl = properties.getProperty("base_url") ?: ""
+        val apikey = properties.getProperty("apiKey") ?: ""
+        buildConfigField(
+            type = "String", name = "BaseURL", value = baseUrl
+        )
+        buildConfigField(
+            type = "String", name = "ApiKey", value = apikey
+        )
+
     }
 
     buildTypes {
@@ -38,6 +58,7 @@ android {
     }
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     composeOptions {
         kotlinCompilerExtensionVersion = "1.5.1"
@@ -66,4 +87,36 @@ dependencies {
     androidTestImplementation(libs.androidx.ui.test.junit4)
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
+
+    implementation(libs.androidx.navigation.compose)
+
+
+    //Room DB
+    implementation(libs.androidx.room)
+    // kapt(libs.androidx.room.ktx)
+    kapt(libs.room.compiler)
+    implementation(libs.androidx.room.ktx)
+
+    //JetPack Lifecycles
+    implementation(libs.androidx.lifecycle.livedata)
+    implementation(libs.androidx.lifecycle.viewmodel)
+
+
+    //HILT
+    implementation(libs.hilt.android)
+    kapt(libs.hilt.compiler)
+    implementation(libs.hilt.navigation.compose)
+
+    //Retrofit
+    implementation(libs.retrofit)
+    implementation(libs.retrofit.converter.gson)
+    implementation(libs.okhttp.logging)
+
+    // Coil Image Loading
+    implementation(libs.coil)
+    implementation(libs.accompanist.coil)
+}
+
+kapt {
+    correctErrorTypes = true
 }
